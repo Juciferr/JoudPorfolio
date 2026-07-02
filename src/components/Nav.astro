@@ -1,0 +1,125 @@
+---
+const base = '/JoudPorfolio';
+const links = [
+  { href: `${base}/`, label: 'Work' },
+  { href: `${base}/about`, label: 'About' },
+  { href: `${base}/contact`, label: 'Contact' },
+];
+
+const current = Astro.url.pathname;
+---
+
+<header class="nav-wrap">
+  <nav class="nav container" aria-label="Main navigation">
+    <a href={`${base}/`} class="nav-logo" aria-label="Joud — home">
+      <span class="logo-mark">J</span>
+      <span class="logo-name">Joud</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      {links.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['nav-link', { active: current === link.href || current.startsWith(link.href + '/') }]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a href={`${base}/contact`} class="nav-cta">
+      Hire me
+    </a>
+  </nav>
+</header>
+
+<style>
+  .nav-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.25rem 0;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-right: auto;
+  }
+
+  .logo-mark {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .logo-name { color: var(--text-1); }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-2);
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius);
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--text-1);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .nav-cta {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: #000;
+    background: var(--accent);
+    padding: 0.45rem 1rem;
+    border-radius: 100px;
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .nav-cta:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .nav-cta { font-size: 0.75rem; padding: 0.4rem 0.85rem; }
+  }
+</style>

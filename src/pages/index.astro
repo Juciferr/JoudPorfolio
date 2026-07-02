@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Footer from '../components/Footer.astro';
+import projects from '../content/projects.json';
+
+const featured = projects.filter(p => p.featured);
+---
+
+<BaseLayout>
+  <Nav />
+
+  <main id="main-content">
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Available for projects
+        </div>
+
+        <h1 class="hero-title">
+          Creative Director<br/>
+          <em class="hero-em">&amp; AI Filmmaker</em>
+        </h1>
+
+        <p class="hero-sub">
+          Building cinematic AI visuals, 3D animation pipelines,
+          character design systems and vibe-coded web tools.
+        </p>
+
+        <div class="hero-actions">
+          <a href="/JoudPorfolio/work" class="btn-primary">View all work</a>
+          <a href="/JoudPorfolio/contact" class="btn-ghost">Get in touch</a>
+        </div>
+
+        <div class="hero-skills" aria-label="Skills">
+          {['AI Filmmaking','3D Animation','Character Design','Vibe Coding','Prompt Engineering','ComfyUI'].map(s => (
+            <span class="tag">{s}</span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Ambient glow -->
+      <div class="hero-glow" aria-hidden="true"></div>
+    </section>
+
+    <!-- ── Selected work ── -->
+    <section class="work-section" aria-labelledby="work-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="work-heading" class="section-title">Selected Work</h2>
+          <a href="/JoudPorfolio/work" class="section-link">All projects →</a>
+        </div>
+
+        <div class="project-grid">
+          {featured.map(project => (
+            <ProjectCard {...project} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA band ── -->
+    <section class="cta-band" aria-labelledby="cta-heading">
+      <div class="container cta-inner">
+        <h2 id="cta-heading" class="cta-title">
+          Have a project in mind?
+        </h2>
+        <p class="cta-sub">Let's build something remarkable together.</p>
+        <a href="/JoudPorfolio/contact" class="btn-primary">Start a conversation</a>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 0 5rem;
+    overflow: hidden;
+  }
+
+  .hero-inner { position: relative; z-index: 1; max-width: 760px; }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--text-2);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .eyebrow-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .hero-title {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--text-2);
+    line-height: 1.65;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .btn-primary {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #000;
+    background: var(--accent);
+    padding: 0.75rem 1.75rem;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-1);
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    padding: 0.75rem 1.75rem;
+    border-radius: 100px;
+    transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .hero-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(200,245,90,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  /* ── Work section ── */
+  .work-section { padding: 5rem 0; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    gap: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .section-link {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent);
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .section-link:hover { opacity: 0.75; }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ── CTA band ── */
+  .cta-band {
+    padding: 5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(to bottom, transparent, rgba(200,245,90,0.03), transparent);
+  }
+
+  .cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .cta-title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-sub {
+    color: var(--text-2);
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+</style>

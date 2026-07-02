@@ -1,0 +1,42 @@
+[
+  {
+    "id": "arcane-style",
+    "title": "Arcane Style Transfer",
+    "category": "AI Film",
+    "year": "2025",
+    "description": "3D animation playblast re-rendered in the Arcane visual language using ComfyUI + Wan 2.6 VACE with ControlNet depth and line-art conditioning.",
+    "tags": ["ComfyUI", "Wan 2.6", "ControlNet", "Arcane"],
+    "thumbnail": "/JoudPorfolio/images/projects/arcane-style.webp",
+    "featured": true
+  },
+  {
+    "id": "fight-sequence",
+    "title": "Fight Sequence Direction",
+    "category": "Video",
+    "year": "2025",
+    "description": "Multi-shot fight choreography using Kling 3.0 with frame-accurate camera movement prompting and beat-synced editing.",
+    "tags": ["Kling 3.0", "Fight Choreography", "Camera Direction"],
+    "thumbnail": "/JoudPorfolio/images/projects/fight-sequence.webp",
+    "featured": true
+  },
+  {
+    "id": "character-design",
+    "title": "Character Design System",
+    "category": "AI Art",
+    "year": "2025",
+    "description": "End-to-end character identity system — LoRA training, IP-Adapter consistency pipeline, and multi-model prompt package for full visual series.",
+    "tags": ["Midjourney", "Stable Diffusion", "LoRA", "Character Design"],
+    "thumbnail": "/JoudPorfolio/images/projects/character-design.webp",
+    "featured": true
+  },
+  {
+    "id": "mobile-game",
+    "title": "Mobile Game Concept",
+    "category": "Game Design",
+    "year": "2025",
+    "description": "Complete GDD and mechanic spec for a casual mobile game — core loop, progression curve, monetization strategy, and App Store listing.",
+    "tags": ["Game Design", "GDD", "Mobile"],
+    "thumbnail": "/JoudPorfolio/images/projects/mobile-game.webp",
+    "featured": true
+  }
+]
