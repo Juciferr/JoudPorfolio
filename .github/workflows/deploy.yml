@@ -33,7 +33,7 @@ jobs:
       - name: Build Astro site
         run: npx astro build
 
-      - name: Add .nojekyll to prevent Jekyll processing
+      - name: Add .nojekyll
         run: touch dist/.nojekyll
 
       - name: Upload Pages artifact
