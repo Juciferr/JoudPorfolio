@@ -54,6 +54,7 @@ const pgImages = [
       preload="auto"
     ></video>
     <div id="intro-skip" aria-label="Skip intro">Skip ↓</div>
+  <p id="intro-tap" style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:var(--font-body);font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.3);pointer-events:none;">Tap anywhere to skip</p>
   </div>
 
   <main id="main-content" style="opacity:0;transition:opacity .6s ease;">
@@ -268,22 +269,40 @@ const pgImages = [
   const introSkip   = document.getElementById('intro-skip');
   const mainContent = document.getElementById('main-content');
   let gone = false;
+
   function dismiss() {
     if (gone) return; gone = true;
     if (introScreen) { introScreen.style.opacity = '0'; introScreen.style.pointerEvents = 'none'; }
     if (mainContent) mainContent.style.opacity = '1';
     document.body.style.overflow = '';
-    setTimeout(() => { if (introScreen) introScreen.style.display = 'none'; }, 700);
+    setTimeout(function() { if (introScreen) introScreen.style.display = 'none'; }, 600);
   }
+
+  // Always unlock scroll immediately so user is never trapped
   document.body.style.overflow = 'hidden';
+
   if (introVideo) {
-    introVideo.addEventListener('ended', dismiss);
-    introVideo.addEventListener('error', dismiss);
-    introVideo.addEventListener('stalled', function(){ setTimeout(dismiss, 1500); });
+    // Dismiss on any video event
+    introVideo.addEventListener('ended',   dismiss);
+    introVideo.addEventListener('error',   dismiss);
+    introVideo.addEventListener('stalled', dismiss);
+    introVideo.addEventListener('abort',   dismiss);
+    introVideo.addEventListener('emptied', dismiss);
+
+    // If video hasn't started within 1.5s, skip it
+    setTimeout(function() {
+      if (introVideo.readyState < 2) dismiss();
+    }, 1500);
+
     introVideo.play().catch(dismiss);
-  } else { dismiss(); }
+  } else {
+    dismiss();
+  }
+
   if (introSkip) introSkip.addEventListener('click', dismiss);
-  setTimeout(dismiss, 6000);
+
+  // Hard cap — dismiss after 5s no matter what
+  setTimeout(dismiss, 5000);
 })();
 
 // ══ SMOOTH SCROLL ══
