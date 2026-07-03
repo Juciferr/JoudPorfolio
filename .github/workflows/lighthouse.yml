@@ -1,0 +1,54 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    name: Check performance & accessibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3
+          configPath: .lighthouserc.json
+
+  - name: Comment scores on PR
+    uses: actions/github-script@v7
+    if: github.event_name == 'pull_request'
+    with:
+      script: |
+        const fs = require('fs');
+        const results = JSON.parse(fs.readFileSync('lhci_results.json', 'utf8'));
+        const scores = results.lhr.categories;
+        const body = `## Lighthouse scores\n\n` +
+          `| Category | Score |\n|---|---|\n` +
+          `| Performance | ${Math.round(scores.performance.score * 100)} |\n` +
+          `| Accessibility | ${Math.round(scores.accessibility.score * 100)} |\n` +
+          `| Best Practices | ${Math.round(scores['best-practices'].score * 100)} |\n` +
+          `| SEO | ${Math.round(scores.seo.score * 100)} |`;
+        github.rest.issues.createComment({
+          issue_number: context.issue.number,
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          body
+        });
